@@ -1,2 +1,5 @@
 #Pycharm
 /.idea
+
+#Sensetive Data
+/env/credentials.env
