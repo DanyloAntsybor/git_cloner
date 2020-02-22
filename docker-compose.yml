@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+    web:
+        build: .
+        image: git_cloner_app
+        command: gunicorn --bind 0.0.0.0:80 main:app
+        ports:
+            - "80:80"
+        env_file:
+            - env/credentials.env

@@ -6,8 +6,5 @@ RUN apt-get update -y && \
 COPY ./env/requirements.txt /env/requirements.txt
 
 RUN pip3 install -r ./env/requirements.txt
-RUN mkdir /code
-
-WORKDIR /code
-
-CMD ["python3", "cloner_app.py" ]
+ADD . .
+CMD [ "main.py" ]
