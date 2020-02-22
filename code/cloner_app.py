@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, redirect
 app = Flask(__name__)
 
-REPO = '--------- WWW ---------'
+REPO_URL = 'https://github.com/edison12347/git_cloner'
 
 
 @app.route('/')
 def index():
-    return render_template('main.html', repo=REPO)
+    return render_template('main.html', repo=REPO_URL)
 
 
 @app.route('/clone', methods=['POST'])
