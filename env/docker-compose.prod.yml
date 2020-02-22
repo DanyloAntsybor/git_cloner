@@ -1,10 +1,11 @@
-version: '2'
+version: '3.7'
 services:
     web:
         build: ../
         image: git_cloner_app
-        ports:
-            - "5000:5000"
+        command: gunicorn --bind 0.0.0.0:5000
+        expose:
+            - 5000
         volumes:
             - ../code:/code
         env_file:

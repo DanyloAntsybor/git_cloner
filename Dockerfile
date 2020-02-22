@@ -10,6 +10,4 @@ RUN mkdir /code
 
 WORKDIR /code
 
-ENTRYPOINT [ "python3" ]
-
-CMD [ "cloner_app.py" ]
+CMD ["python3", "cloner_app.py" ]
