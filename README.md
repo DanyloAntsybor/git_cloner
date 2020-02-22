@@ -5,6 +5,7 @@
 
 Steps to run the application
 1. Clone this repo to your server
+2. Install docker engine and docker compose to the server (https://docs.docker.com/install/linux/docker-ce/ubuntu/, https://docs.docker.com/compose/install/)
 2. Register new GitHub app https://github.com/settings/applications/new
 3. Remove credentials from git tracking (`git rm --cached credentials.env`)
 4. Fill credentials.env with appropriate data, including GitHub App credential
