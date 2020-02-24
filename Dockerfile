@@ -11,3 +11,4 @@ ADD . .
 WORKDIR ./web
 
 CMD [ "python3", "main.py" ]
+

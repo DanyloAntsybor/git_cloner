@@ -12,3 +12,4 @@ Steps to run the application
 7. Your application is up and running
 
 Known issue: One might need to reload the page after initially reaching the the server url in order to see the response
+
