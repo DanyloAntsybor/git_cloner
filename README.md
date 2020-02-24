@@ -1,6 +1,7 @@
 <h1>Git Cloner</h1>
 
 <h3>Self replicating git repository </h3>
+Application runs on Flask that authorizes GitHub application and сlones current repository to the user that uses it. 
 
 Steps to run the application
 1. Clone this repo to your server
