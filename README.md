@@ -7,7 +7,9 @@ Steps to run the application
 2. Install docker engine and docker compose to the server (https://docs.docker.com/install/linux/docker-ce/ubuntu/, https://docs.docker.com/compose/install/)
 3. Register new GitHub app https://github.com/settings/applications/new
 4. Set your server url and callback url ($SERVER_URL/github-callback)
-5. Remove credentials from git tracking (`git rm --cached credentials.env`)
-6. Fill credentials.env with appropriate data, including GitHub App credential
-7. Run `docker-compose up -d` command
-8. Your application is up and running
+5. Create credentials.env providing variables from .env.example
+6. Run `docker-compose up -d` command
+7. Your application is up and running
+
+Known issue: One might need to reload the page after initially reaching the the server url in order to see the response
+

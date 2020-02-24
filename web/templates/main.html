@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cloner</title>
+</head>
+<body>
+    {% if user %}
+    <p>Hello {{user.github_login}}! Click Clone to duplicate {{ repo }} to yor git repository</p>
+    <form action="/clone_repo" method="post">
+        <button name="cloneBtn" type="submit">Clone</button>
+    </form>
+    <form action="/logout" method="post">
+        <button name="logoutBtn" type="submit">Logout</button>
+    </form>
+    {% else %}
+        <p>Please Authenticate into GitHub in order to clone: {{ repo }} to yor git repository</p>
+     <form action="/login" method="post">
+        <button name="loginBtn" type="submit">Authenticate</button>
+    </form>
+    {% endif %}
+</form>
+</body>
+</html>
