@@ -3,13 +3,11 @@ FROM ubuntu:18.04
 RUN apt-get update -y && \
     apt-get install -y python3-pip python-dev curl
 
-COPY ./env/requirements.txt /env/requirements.txt
+ADD env/requirements.txt env/requirements.txt
+RUN pip3 install -r env/requirements.txt
 
-RUN pip3 install -r ./env/requirements.txt
-RUN mkdir /code
+ADD . .
 
-WORKDIR /code
+WORKDIR ./web
 
-ENTRYPOINT [ "python3" ]
-
-CMD [ "cloner_app.py" ]
+CMD [ "python3", "main.py" ]

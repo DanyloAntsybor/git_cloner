@@ -5,14 +5,12 @@ import os
 from flask import Flask, request, g, session, redirect, url_for, render_template
 from flask import jsonify
 from flask_github import GitHub
-
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String
+from flask_sqlalchemy import SQLAlchemy
 
 # setup variables
 DEBUG = False
-DATABASE_URI = 'sqlite:////tmp/cloner.db'
+
 SECRET_KEY = os.environ['DB_SECRET_KEY']
 REPO_INFO = os.environ['REPO_INFO']
 REPO_URL = 'https://github.com/{}'.format(REPO_INFO)
@@ -27,19 +25,11 @@ app.config.from_object(__name__)
 github = GitHub(app)
 
 # setup sqlalchemy
-engine = create_engine(app.config['DATABASE_URI'])
-db_session = scoped_session(sessionmaker(autocommit=False,
-                                         autoflush=False,
-                                         bind=engine))
-Base = declarative_base()
-Base.query = db_session.query_property()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/cloner.db'
+db = SQLAlchemy(app)
 
 
-def init_db():
-    Base.metadata.create_all(bind=engine)
-
-
-class User(Base):
+class User(db.Model):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
@@ -51,6 +41,10 @@ class User(Base):
         self.github_access_token = github_access_token
 
 
+db.create_all()
+db.session.commit()
+
+
 @app.before_request
 def before_request():
     g.user = None
@@ -60,7 +54,7 @@ def before_request():
 
 @app.after_request
 def after_request(response):
-    db_session.remove()
+    db.session.remove()
     return response
 
 
@@ -86,7 +80,7 @@ def authorized(access_token):
     user = User.query.filter_by(github_access_token=access_token).first()
     if user is None:
         user = User(access_token)
-        db_session.add(user)
+        db.session.add(user)
 
     user.github_access_token = access_token
 
@@ -97,7 +91,7 @@ def authorized(access_token):
     user.github_id = github_user['id']
     user.github_login = github_user['login']
 
-    db_session.commit()
+    db.session.commit()
 
     session['user_id'] = user.id
     return redirect(next_url)
@@ -128,8 +122,3 @@ def clone_repo():
     if res.get('html_url'):
         return redirect(res.get('html_url'))
     return "Something went wrong, clear session and try again"
-
-
-if __name__ == '__main__':
-    init_db()
-    app.run(host='0.0.0.0', debug=DEBUG)
